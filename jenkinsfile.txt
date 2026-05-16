@@ -11,7 +11,7 @@ pipeline {
     stages {
         stage('build Docker image'){
             steps{
-                bat " docker build -t ${IMAGE_NAME} . "
+                bat " docker build -t %IMAGE_NAME% . "
 
         
             }        
@@ -21,8 +21,8 @@ pipeline {
          stage('stop container') {
             steps {
             bat '''
-            docker stop ${CONTAINER_NAME} || true
-            docker stop ${CONTAINER_NAME} || true
+            docker stop %CONTAINER_NAME% || exit 0
+            docker stop %CONTAINER_NAME% || exit 0
             '''
             }
         } 
@@ -31,7 +31,7 @@ pipeline {
         stage('run container') {
            steps {
                bat '''
-               docker run -d --name ${CONTAINER_NAME} -p ${PORT}:${PORT} ${IMAGE_NAME}
+               docker run -d --name %CONTAINER_NAME% -p %PORT%:%PORT% %IMAGE_NAME%
                 '''
         
             }
