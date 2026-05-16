@@ -2,11 +2,11 @@ pipeline {
     agent any 
 
 
-    enviroment (
+    environment {
         IMAGE_INAME = 'shntaoyfared/flask_demo:latest'
         CONTAINER_NAME='flask_demo'
         PORT='5000'
-    )
+    }
 
     stages {
         stage('build Docker image'){
