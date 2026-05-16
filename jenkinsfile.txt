@@ -3,7 +3,7 @@ pipeline {
 
 
     environment {
-        IMAGE_INAME = 'shntaoyfared/flask_demo:latest'
+        IMAGE_NAME = 'shntaoyfared/flask_demo:latest'
         CONTAINER_NAME='flask_demo'
         PORT='5000'
     }
