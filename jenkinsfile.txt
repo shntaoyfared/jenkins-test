@@ -21,8 +21,8 @@ pipeline {
          stage('stop container') {
             steps {
             bat '''
-            docker run %CONTAINER_NAME% || exit 0
             docker stop %CONTAINER_NAME% || exit 0
+            docker rm %CONTAINER_NAME% || exit 0
             '''
             }
         } 
