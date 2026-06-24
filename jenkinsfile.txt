@@ -1,39 +1,38 @@
 pipeline {
-    agent any 
-
+    agent any
 
     environment {
         IMAGE_NAME = 'shntaoyfared/flask_demo:latest'
-        CONTAINER_NAME='flask_demo'
-        PORT='5000'
+        CONTAINER_NAME = 'flask_demo'
+        PORT = '5000'
     }
 
     stages {
-        stage('build Docker image'){
-            steps{
-                bat " docker build -t %IMAGE_NAME% . "
-
-        
-            }        
+        stage('Build Docker Image') {
+            steps {
+                sh '''
+                    docker build -t ${IMAGE_NAME} .
+                '''
+            }
         }
 
-
-         stage('stop container') {
+        stage('Stop Container') {
             steps {
-            bat '''
-            docker stop %CONTAINER_NAME% || exit 0
-            docker rm %CONTAINER_NAME% || exit 0
-            '''
-            }
-        } 
-
-
-        stage('run container') {
-           steps {
-               bat '''
-               docker run -d --name %CONTAINER_NAME% -p %PORT%:%PORT% %IMAGE_NAME%
+                sh '''
+                    docker stop ${CONTAINER_NAME} || true
+                    docker rm ${CONTAINER_NAME} || true
                 '''
-        
+            }
+        }
+
+        stage('Run Container') {
+            steps {
+                sh '''
+                    docker run -d \
+                      --name ${CONTAINER_NAME} \
+                      -p ${PORT}:${PORT} \
+                      ${IMAGE_NAME}
+                '''
             }
         }
     }
